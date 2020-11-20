@@ -34,12 +34,11 @@ class URLController {
     redirect(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             const { hash } = request.params;
-            const url = {
-                originURL: "https://lincolngadea.com.br",
-                hash: 'Yn52qxaf9',
-                shortURL: "http://localhost:5000/Yn52qxaf9"
-            };
-            response.redirect(url.originURL);
+            const url = yield URL_1.URLModel.findOne({ hash });
+            if (url) {
+                response.redirect(url.originURL);
+            }
+            response.status(400).json({ error: 'URL not found' });
         });
     }
 }
